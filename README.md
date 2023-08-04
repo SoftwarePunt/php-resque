@@ -62,6 +62,18 @@ Jobs instances are placed in specific queues with a set of context data (args):
 Resque::enqueue('default', 'MyApp\Greeter_Job', ['name' => "Hank"]);
 ```
 
+### Dequeue jobs
+
+Jobs can be removed from queues:
+
+```php
+// Remove all jobs of a certain type from a queue
+Resque::dequeue('default', ['MyApp\Greeter_Job']);
+
+// Remove specific job from a queue
+Resque::dequeue('default', ['MyApp\Greeter_Job' => '087df5819a790ac666c9608e2234b21e']);
+```
+
 ### Workers
 
 Start a worker with the `QUEUE` environment variable to begin processing jobs from that queue:
