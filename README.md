@@ -116,3 +116,17 @@ Resque_Event::listen('eventName', $callback);
 | `onFailure`       | Called whenever a job fails.                                            | `Exception $ex, Resque_Job $job`                         |
 | `beforeEnqueue`   | Called before a job has been queued using `enqueue`.                    | `string $class, ?array $args, string $queue, string $id` |
 | `afterEnqueue`    | Called after a job has been queued using `enqueue`.                     | `string $class, ?array $args, string $queue, string $id` |
+
+## Advanced
+
+### Getting self job info
+You can get the ID, queue, etc. from within an executing job:
+
+```php
+public function perform()
+{
+    echo $this->queue; // my_queue (Queue name)
+    echo $this->job->payload['id']; // aa4c8b768d7b89a1b90d000cfefdf785 (Job ID)
+    echo $this->job->payload['queue_time']; // 1695993877.3551 (Job enqueued at)
+}
+``` 
