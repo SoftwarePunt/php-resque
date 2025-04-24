@@ -14,31 +14,30 @@ class Resque_Log extends Psr\Log\AbstractLogger
 		$this->verbose = $verbose;
 	}
 
-	/**
-	 * Logs with an arbitrary level.
-	 *
-	 * @param mixed   $level    PSR-3 log level constant, or equivalent string
-	 * @param string  $message  Message to log, may contain a { placeholder }
-	 * @param array   $context  Variables to replace { placeholder }
-	 * @return null
-	 */
-	public function log($level, $message, array $context = array())
-	{
-		if ($this->verbose) {
-			fwrite(
-				STDOUT,
-				'[' . $level . '] [' . strftime('%T %Y-%m-%d') . '] ' . $this->interpolate($message, $context) . PHP_EOL
-			);
-			return;
-		}
+    /**
+     * Logs with an arbitrary level.
+     *
+     * @param mixed $level PSR-3 log level constant, or equivalent string
+     * @param string|\Stringable $message Message to log, may contain a { placeholder }
+     * @param array $context Variables to replace { placeholder }
+     */
+    public function log($level, string|\Stringable $message, array $context = []): void
+    {
+        if ($this->verbose) {
+            fwrite(
+                STDOUT,
+                '[' . $level . '] [' . strftime('%T %Y-%m-%d') . '] ' . $this->interpolate($message, $context) . PHP_EOL
+            );
+            return;
+        }
 
-		if (!($level === Psr\Log\LogLevel::INFO || $level === Psr\Log\LogLevel::DEBUG)) {
-			fwrite(
-				STDOUT,
-				'[' . $level . '] ' . $this->interpolate($message, $context) . PHP_EOL
-			);
-		}
-	}
+        if (!($level === Psr\Log\LogLevel::INFO || $level === Psr\Log\LogLevel::DEBUG)) {
+            fwrite(
+                STDOUT,
+                '[' . $level . '] ' . $this->interpolate($message, $context) . PHP_EOL
+            );
+        }
+    }
 
 	/**
 	 * Fill placeholders with the provided context
